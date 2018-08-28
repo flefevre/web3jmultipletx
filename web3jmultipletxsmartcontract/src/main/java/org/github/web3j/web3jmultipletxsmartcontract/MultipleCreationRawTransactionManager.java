@@ -17,9 +17,11 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.admin.Admin;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
+import org.web3j.tx.RawTransactionManager;
+import org.web3j.tx.TransactionManager;
 
-public class MultipleCreation {
-	private static Logger logger = LoggerFactory.getLogger(MultipleCreation.class);
+public class MultipleCreationRawTransactionManager {
+	private static Logger logger = LoggerFactory.getLogger(MultipleCreationRawTransactionManager.class);
 
 	
 	public static void main(String[] args) throws IOException {
@@ -47,13 +49,15 @@ public class MultipleCreation {
 			logger.error("credentials "+e.getMessage());
 			e.printStackTrace();
 		}
+
+		RawTransactionManager transactionManager = new RawTransactionManager(adminWeb3j, credentials);
 		
-		byte[] _name = SmartContractUtil.stringToByte("A"+((new Date()).getTime()));
+		byte[] _name = SmartContractUtil.stringToByte("tot"+((new Date()).getTime()));
 		Date start = new Date();
 		SimpleStorage x=null;
 		try {
 			logger.info(start.getTime()+"\tDeploy first time with send: ");
-			x = SimpleStorage.deploy(adminWeb3j, credentials, SmartContractUtil.GAS_PRICE, SmartContractUtil.GAS_LIMIT, _name).send();
+			x = SimpleStorage.deploy(adminWeb3j, transactionManager, SmartContractUtil.GAS_PRICE, SmartContractUtil.GAS_LIMIT, _name).send();
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -61,10 +65,10 @@ public class MultipleCreation {
 		Date done = new Date();
 		System.out.println(done.getTime()+"\tA:"+x.getTransactionReceipt().get().getBlockNumber()+"\t"+ x.getContractAddress());
 
-		_name = SmartContractUtil.stringToByte("B"+((new Date()).getTime()));
+		_name = SmartContractUtil.stringToByte("tot"+((new Date()).getTime()));
 
 		System.out.println(done.getTime()+"\tDeploy secund time with sendAsync");
-		CompletableFuture<SimpleStorage> b = SimpleStorage.deploy(adminWeb3j, credentials, SmartContractUtil.GAS_PRICE, SmartContractUtil.GAS_LIMIT, _name).sendAsync();
+		CompletableFuture<SimpleStorage> b = SimpleStorage.deploy(adminWeb3j, transactionManager, SmartContractUtil.GAS_PRICE, SmartContractUtil.GAS_LIMIT, _name).sendAsync();
 		b.thenAccept(trCommand -> {
 			try {
 				Date doneB = new Date();
@@ -80,7 +84,7 @@ public class MultipleCreation {
 
 		Date done3 = new Date();
 		System.out.println(done3.getTime()+"\tDeploy third time with sendAsync");
-		_name = SmartContractUtil.stringToByte("C"+((new Date()).getTime()));
+		_name = SmartContractUtil.stringToByte("tot"+((new Date()).getTime()));
 		CompletableFuture<SimpleStorage> c = SimpleStorage.deploy(adminWeb3j, credentials, SmartContractUtil.GAS_PRICE, SmartContractUtil.GAS_LIMIT, _name).sendAsync();
 		c.thenAccept(trCommand -> {
 			try {
