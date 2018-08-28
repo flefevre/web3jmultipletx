@@ -22,22 +22,19 @@ public class MultipleCreation {
 	public static final int COUNT = 10;  // don't set too high if using a real Ethereum network
 	public static final long POLLING_FREQUENCY = 15000;
 	public static final int DEFAULT_POLLING_ATTEMPTS_PER_TX_HASH = 40;
+	
 	public static BigInteger GAS_PRICE = BigInteger.valueOf(20_000_000L);
-	//public static BigInteger GAS_LIMIT = BigInteger.valueOf(4_300_000);
 	public static BigInteger GAS_LIMIT = BigInteger.valueOf(4_300_000);
 
 	public static void main(String[] args) throws IOException {
 		Web3j web3 = Web3j.build(new HttpService());
 		Credentials credentials2 = null;
 		try {
-			credentials2 = WalletUtils.loadCredentials("node01account", "/volatile/home/fl218080/gits/fildariane/digitalworld/dwethereum/dwethereumdockermultiplenodes/files/keystore/UTC--2017-06-05T15-25-11.024429180Z--4e5d555f2188e97c8c5f372ccba78b4b8fe9edbc");
+			credentials2 = WalletUtils.loadCredentials("node01account", "/volatile/home/fl218080/github/web3jmultipletx/ethereum-docker/files/keystore/UTC--2017-06-05T15-25-01.575856240Z--d0f98f1ea8406c9ddb222144de6f8a9e464941da");
 		} catch (CipherException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
-		long pollingInterval = 10;
-		//FastRawTransactionManager fastRawTxMgr =new FastRawTransactionManager(adminWeb3j, credentials, new PollingTransactionReceiptProcessor(adminWeb3j, pollingInterval, 15));
 
 		Date start = new Date();
 		SimpleStorage x=null;

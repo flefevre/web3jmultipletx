@@ -10,7 +10,7 @@ mvn clean install
 -import the project in our favoite IDE, you should see the web3j layer in target/main/java
 
 - start a ethereum private network based on the following work [1]
-- account with password set to node01password
+- account with password set to node01account
 
 '''
 cd ethereum-docker
